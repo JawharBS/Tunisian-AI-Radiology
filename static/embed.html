@@ -1,0 +1,327 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <!-- Place favicon.ico in the root directory -->
+<script src="./Pie Chart_files/Chart.min.js.téléchargement"></script>
+	<script src="./Pie Chart_files/utils.js.téléchargement"></script>
+   <!-- CSS here -->
+   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+   <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+   <link rel="stylesheet" href="assets/css/slicknav.css">
+   <link rel="stylesheet" href="assets/css/animate.min.css">
+   <link rel="stylesheet" href="assets/css/magnific-popup.css">
+   <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+   <link rel="stylesheet" href="assets/css/themify-icons.css">
+   <link rel="stylesheet" href="assets/css/themify-icons.css">
+   <link rel="stylesheet" href="assets/css/slick.css">
+   <link rel="stylesheet" href="assets/css/nice-select.css">
+   <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+
+<body>
+    
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/logo.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader Start -->
+
+    
+
+
+    <!-- Slider Area Start-->
+    <div class="services-area">
+
+    </div>
+    <!-- Slider Area End-->
+
+    <!-- ================ contact section start ================= -->
+    <section class="contact-section">
+            <div class="container">  
+    
+                <div class="row">
+                    <div class="col-lg-6">
+  <div class="input-file-container">  
+    <input id="image-selector" type="file" name="file" class="input-file">
+    <label tabindex="0" for="image-selector" class="input-file-trigger">1- Select a file...</label>
+  </div>
+  
+
+      <button id="predict-button" class="genric-btn danger radius" style="display:none;">2- Predict</button>
+<canvas id="chart-area" style="display:none;"></canvas>
+    <p><center><span id="covid-prediction" style="color:#4BC0C0;"></span> <span id="non_covid-prediction" style="color:#FF4F75;"></span> </center></p>
+
+</br></br>
+<img src="loader.gif" id="img-loader" style="display:none"/>
+<style>
+.input-file-container {
+  position: relative;
+  width: 225px;
+} 
+.js .input-file-trigger {
+  display: block;
+  padding: 14px 45px;
+  background: #39D2B4;
+  color: #fff;
+  font-size: 1em;
+  transition: all .4s;
+  cursor: pointer;
+}
+.js .input-file {
+  position: absolute;
+  top: 0; left: 0;
+  width: 225px;
+  opacity: 0;
+  padding: 14px 0;
+  cursor: pointer;
+}
+.js .input-file:hover + .input-file-trigger,
+.js .input-file:focus + .input-file-trigger,
+.js .input-file-trigger:hover,
+.js .input-file-trigger:focus {
+  background: #34495E;
+  color: #39D2B4;
+}
+
+.file-return {
+  margin: 0;
+}
+.file-return:not(:empty) {
+  margin: 1em 0;
+}
+.js .file-return {
+  font-style: italic;
+  font-size: .9em;
+  font-weight: bold;
+}
+.js .file-return:not(:empty):before {
+  content: "Selected file: ";
+  font-style: normal;
+  font-weight: normal;
+}
+
+
+
+
+
+
+/* Useless styles, just for demo styles */
+
+body {
+  font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
+  color: #7F8C9A;
+  background: #FCFDFD;
+}
+h1, h2 {
+  margin-bottom: 5px;
+  font-weight: normal;
+  text-align: center;
+  color:#aaa;
+}
+h2 {
+  margin: 5px 0 2em;
+  color: #1ABC9C;
+}
+form {
+  width: 225px;
+  margin: 0 auto;
+  text-align:center;
+}
+h2 + P {
+  text-align: center;
+}
+.txtcenter {
+  margin-top: 4em;
+  font-size: .9em;
+  text-align: center;
+  color: #aaa;
+}
+.copy {
+  margin-top: 2em;
+}
+.copy a {
+  text-decoration: none;
+  color: #1ABC9C;
+}
+</style>
+ 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+		var config = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						0,
+						0,
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.green,
+
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'COVID-19 Cas',
+					'Normal Case',
+				]
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Prediction'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+			window.myDoughnut = new Chart(ctx, config);
+		};
+
+	</script>   
+    <script>
+        let base64Image;
+        $("#image-selector").change(function() {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let dataURL = reader.result;
+                $('#selected-image').attr("src", dataURL);
+                base64Image = dataURL.replace("data:image/png;base64,","");
+                console.log(base64Image);
+                document.getElementById("predict-button").style.display="";
+            }
+            reader.readAsDataURL($("#image-selector")[0].files[0]);
+            $("#covid-prediction").text("");
+            $("#non_covid-prediction").text("");
+        });
+        
+        $("#predict-button").click(function(){
+            let message = {
+                image: base64Image
+            }
+            document.getElementById("img-loader").style.display="";
+            document.getElementById("chart-area").style.display="none";		
+            console.log(message);
+            $.post("/predict", JSON.stringify(message), function(response){
+            	config.data.datasets.forEach(function(dataset) {
+				dataset.data = [
+						response.prediction.non_covid.toFixed(6),
+						response.prediction.covid.toFixed(6),
+					];
+			});
+            document.getElementById("img-loader").style.display="none";
+            document.getElementById("chart-area").style.display="";
+                $("#covid-prediction").text("Normal case: "+response.prediction.covid.toFixed(2)+"%");
+                $("#non_covid-prediction").text("COVID-19 case: "+response.prediction.non_covid.toFixed(2)+"%");
+                window.myDoughnut.update();
+                console.log(response);
+            });
+        });       
+    </script>
+                    </div>
+                    <div class="col-lg-6">
+                            <img id="selected-image" src="please.png" width="100%"/>
+								  <p class="file-return" width="100%"></p>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- ================ contact section end ================= -->
+ 
+
+    <!-- JS here -->
+	
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/popper.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="./assets/js/owl.carousel.min.js"></script>
+        <script src="./assets/js/slick.min.js"></script>
+        
+		<!-- One Page, Animated-HeadLin -->
+        <script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+		
+		<!-- Scrollup, nice-select, sticky -->
+        <script src="./assets/js/jquery.scrollUp.min.js"></script>
+        <script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+        <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+        <!-- contact js -->
+        <script src="./assets/js/contact.js"></script>
+        <script src="./assets/js/jquery.form.js"></script>
+        <script src="./assets/js/jquery.validate.min.js"></script>
+        <script src="./assets/js/mail-script.js"></script>
+        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+        
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="./assets/js/plugins.js"></script>
+        <script src="./assets/js/main.js"></script>
+    <script>
+document.querySelector("html").classList.add('js');
+
+var fileInput  = document.querySelector( ".input-file" ),  
+    button     = document.querySelector( ".input-file-trigger" ),
+    the_return = document.querySelector(".file-return");
+      
+button.addEventListener( "keydown", function( event ) {  
+    if ( event.keyCode == 13 || event.keyCode == 32 ) {  
+        fileInput.focus();  
+    }  
+});
+button.addEventListener( "click", function( event ) {
+   fileInput.focus();
+   return false;
+});  
+fileInput.addEventListener( "change", function( event ) {  
+    the_return.innerHTML = this.value;  
+});  
+</script>  
+
+
+
+		
+	
+    </body>
+    
+    </html>
